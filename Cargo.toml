@@ -1,0 +1,19 @@
+[package]
+name = "beer-routing"
+version = "0.0.1"
+authors = ["Alexis <a.beingessner@gmail.com>"]
+
+[dependencies.conrod]
+path = "../conrod"
+
+[dependencies.pistoncore-glutin_window]
+git = "https://github.com/PistonDevelopers/glutin_window.git"
+
+[dependencies.piston2d-opengl_graphics]
+git = "https://github.com/PistonDevelopers/opengl_graphics.git"
+
+[dependencies.piston]
+git = "https://github.com/PistonDevelopers/piston/"
+
+[dependencies.piston2d-graphics]
+git = "https://github.com/PistonDevelopers/graphics.git"
