@@ -17,3 +17,9 @@ git = "https://github.com/PistonDevelopers/piston/"
 
 [dependencies.piston2d-graphics]
 git = "https://github.com/PistonDevelopers/graphics.git"
+
+[dependencies.pistoncore-input]
+git = "https://github.com/PistonDevelopers/input.git"
+
+[dependencies.rand]
+version = "*"

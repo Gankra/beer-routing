@@ -1,4 +1,5 @@
 use conrod::Point;
+use rand::{self, Rng};
 
 pub type Graph = Vec<Node>;
 
@@ -14,15 +15,18 @@ pub fn gen(size: usize) -> Graph {
 
     let row_width = size/2;
 
+    let mut rng = rand::thread_rng();
+
     for i in 1..row_width+1 {
         for j in 1..row_width+1 {
             let x = (i * 100) as f64;
             let y = (j * 100) as f64;
-            let is_beer = (i * row_width + j) % 19 == 0;
+            let is_beer = rng.next_f64() < 0.05;
             let mut edges = vec![];
 
             {
                 let mut add_edge = |xc, yc| {
+                    if rng.next_f64() < 0.25 { return; }
                     if xc < 1 || xc > row_width || yc < 1 || yc > row_width { return; }
                     let idx = (xc - 1) * row_width + (yc - 1);
                     let num_nodes = nodes.len();
@@ -40,7 +44,7 @@ pub fn gen(size: usize) -> Graph {
             }
 
 
-            nodes.push(Node{
+            nodes.push(Node {
                 is_beer: is_beer,
                 pos: [x, y],
                 edges: edges,
@@ -51,6 +55,7 @@ pub fn gen(size: usize) -> Graph {
     nodes
 }
 
+/*
 pub fn gen2(size: usize) -> Graph {
     let mut nodes: Vec<Node> = Vec::with_capacity(size);
 
@@ -78,3 +83,4 @@ pub fn gen2(size: usize) -> Graph {
 
     nodes
 }
+*/
