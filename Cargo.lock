@@ -2,7 +2,7 @@
 name = "beer-routing"
 version = "0.0.1"
 dependencies = [
- "conrod 0.0.7",
+ "conrod 0.0.7 (git+https://github.com/PistonDevelopers/conrod.git)",
  "piston 0.0.7 (git+https://github.com/PistonDevelopers/piston/)",
  "piston2d-graphics 0.0.25 (git+https://github.com/PistonDevelopers/graphics.git)",
  "piston2d-opengl_graphics 0.0.10 (git+https://github.com/PistonDevelopers/opengl_graphics.git)",
@@ -37,6 +37,7 @@ dependencies = [
 [[package]]
 name = "conrod"
 version = "0.0.7"
+source = "git+https://github.com/PistonDevelopers/conrod.git#74aa1f6479794b3a1f45a2a2a56209016926097e"
 dependencies = [
  "bitflags 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "clock_ticks 0.0.5 (git+https://github.com/tomaka/clock_ticks)",

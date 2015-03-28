@@ -4,7 +4,7 @@ version = "0.0.1"
 authors = ["Alexis <a.beingessner@gmail.com>"]
 
 [dependencies.conrod]
-path = "../conrod"
+git = "https://github.com/PistonDevelopers/conrod.git"
 
 [dependencies.pistoncore-glutin_window]
 git = "https://github.com/PistonDevelopers/glutin_window.git"
