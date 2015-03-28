@@ -21,6 +21,8 @@ use conrod::{
     UiContext,
     Point,
     Color,
+    Label,
+    Positionable,
 };
 use glutin_window::GlutinWindow;
 use opengl_graphics::{Gl, OpenGL, GlGraphics};
@@ -137,11 +139,12 @@ fn main () {
         }
 
         cur = prev;
+        let mut exited = true;
 
         for event in &mut event_iter {
             uic.handle_event(&event);
             match event {
-                Everickt: Probablyent::Render(args) => {
+                Event::Render(args) => {
                     if let Some(pred) = to_beer[cur] {
                         path.insert(canonicalize((cur, pred)));
                         cur = pred;
@@ -156,15 +159,21 @@ fn main () {
                     mouse_y = y;
                 }
                 Event::Input(Input::Release(_)) => {
-                    let idx = (mouse_y / 100.0) as usize - 1
-                        + ((mouse_x / 100.0) as usize - 1) * rows;
+                    let idx = ((mouse_y - 50.0) / 100.0) as usize
+                        + (((mouse_x - 50.0) / 100.0) as usize) * rows;
+
                     if idx < graph.len() {
                         end = idx;
+                        exited = false;
                         break;
                     }
                 }
                 _ => {}
             }
+        }
+
+        if exited {
+            break;
         }
     }
 }
@@ -191,7 +200,7 @@ fn progress(demo: &mut Demo) -> Option<(usize, usize)> {
                     beer_edges.push((idx, dist))
                 }
             }
-            augmented.push(Node{edges: beer_edges, pos: [0.0, 0.0], is_beer: false});
+            augmented.push(Node{edges: beer_edges, pos: [500.0, 0.0], is_beer: false});
 
             *second_pass = Some(Dijkstra::new(augmented, num_nodes));
         }
@@ -281,8 +290,47 @@ fn draw_query(
 
 }
 
-fn draw_static(gl: &mut Gl, uic: &mut Ui, demo: &Demo) {
+fn draw_static(gl: &mut Gl, uic: &mut Ui) {
+    let font_size = 32;
+    let text_x = 1050.0;
+    let line_height = 40.0;
+    let mut text_y = 40.0;
+
     Background::new().rgba(1.0, 1.0, 1.0, 1.0).draw(uic, gl);
+
+    let mut line = |text: &'static str| {
+        Label::new(text).position(text_x, text_y).size(font_size).draw(uic, gl);
+        text_y += line_height;
+    };
+
+    line("The Beer Routing Problem:");
+    line("You're at home (the source) and you have to go to a");
+    line("party (the target). However you need to bring beer");
+    line("to the party. Therefore you want to find the shortest");
+    line("path from your home to a party that happens to pass");
+    line("through some beer store (colored red)");
+    line("");
+
+    line("Preprocess Phase 1: Run Dijkstra's Algorithm from the");
+    line("source to find the shortest path to each beer store.");
+    line("");
+
+    line("Preprocess Phase 2: Insert a fake node connected to");
+    line("each beer store with edge-weight equal to the shortest");
+    line("path distance from Phase 1. Run Dijkstra again from");
+    line("the fake node, producing a forest of neighbourhoods");
+    line("around each beer store of target nodes that should");
+    line("visit that store.");
+    line("");
+
+    line("Query Phase 1: Start at the target node and walk up");
+    line("the tree from Preprocess Phase 2 to reach it's beer");
+    line("store.");
+    line("");
+
+    line("Query Phase 2: Start at the beer store from Phase 1");
+    line("and walk up the tree from Preprocess Phase 1 to reach");
+    line("the source.");
 }
 
 /// Draw a circle controlled by the XYPad.

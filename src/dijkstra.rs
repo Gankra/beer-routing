@@ -29,6 +29,8 @@ impl Dijkstra {
 impl Iterator for Dijkstra {
     type Item = (usize, usize);
     fn next(&mut self) -> Option<(usize, usize)> {
+        // Naive O(n^2) Dijkstra's. Fine since we're doing ~10 steps per second anyway.
+
         let Dijkstra {
             ref graph,
             ref mut todo_distances,
@@ -71,6 +73,9 @@ impl Iterator for Dijkstra {
 }
 
 /*
+This is how we ideally want to write the algorithms, but we need to mince it up for the
+simulation
+
 pub fn beer_route(graph: Graph, start: usize) -> (Vec<Option<usize>>, Vec<Option<usize>>) {
     let mut first_pass = Dijkstra::new(graph, start);
     for _ in &mut first_pass {}
